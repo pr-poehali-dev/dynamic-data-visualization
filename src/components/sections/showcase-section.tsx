@@ -1,88 +1,133 @@
 import { useState } from "react"
 import { useReveal } from "@/hooks/use-reveal"
+import type React from "react"
 
 const tabs = [
   {
-    n: "01",
-    title: "YouTube 4K",
-    desc: "Снятие замедления видеопотока. Полное разрешение, без буферизации.",
-    meta: { label: "Статус", value: "Разблокировано", tag: "4K · 60fps" },
+    n: "// 01",
+    title: "Dashboard",
+    bar: "ZAPRET CORE — DASHBOARD",
+    desc: "Сетевая телеметрия в реальном времени: throughput, RX/TX, статус движка и P2P-обфускации. Service Mode в один клик.",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="6" cy="6" r="2" /><circle cx="18" cy="6" r="2" /><circle cx="6" cy="18" r="2" /><circle cx="18" cy="18" r="2" />
+      </svg>
+    ),
   },
   {
-    n: "02",
-    title: "Discord VoIP",
-    desc: "Голос и видеозвонки без обрывов. UDP-пакеты проходят без задержек.",
-    meta: { label: "Статус", value: "Разблокировано", tag: "VoIP · <10ms" },
+    n: "// 02",
+    title: "Settings",
+    bar: "ZAPRET CORE — SETTINGS",
+    desc: "14 профилей обхода для разных провайдеров. Game Mode, TG Bypass (WSS), Cloudflare Proxy, Setup Node 2.0 с QR и tg://proxy.",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+      </svg>
+    ),
   },
   {
-    n: "03",
-    title: "Telegram",
-    desc: "Каналы, файлы, звонки — полный доступ без замедлений.",
-    meta: { label: "Статус", value: "Разблокировано", tag: "MTProto · Прямой" },
+    n: "// 03",
+    title: "Lists",
+    bar: "ZAPRET CORE — DOMAIN LISTS",
+    desc: "Редактор белых и чёрных списков доменов. Автообновление стратегий обхода из облачного репозитория.",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
+        <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
+      </svg>
+    ),
+  },
+  {
+    n: "// 04",
+    title: "About",
+    bar: "ZAPRET CORE — ABOUT",
+    desc: "Версия движка, чейнлог, лицензия MIT. Прямые ссылки на GitHub, Telegram-канал и форум.",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+    ),
   },
 ]
 
-const icons = [
-  // YouTube
-  <svg key="yt" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
-  </svg>,
-  // Discord
-  <svg key="dc" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.11 18.1.127 18.116a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
-  </svg>,
-  // Telegram
-  <svg key="tg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m22 2-7 20-4-9-9-4 20-7z" />
-    <path d="M22 2 11 13" />
-  </svg>,
+const previewContent = [
+  { emoji: "⚡", status: "ENGINE ACTIVE", sub: "throughput 940 Mbit/s · rx 1.2GB · tx 0.4GB" },
+  { emoji: "⚙️", status: "14 PROFILES LOADED", sub: "Game Mode · TG Bypass WSS · Cloudflare Proxy" },
+  { emoji: "📋", status: "LISTS SYNCED", sub: "2847 domains · last update 3 min ago" },
+  { emoji: "ℹ️", status: "v2.5.5 STABLE", sub: "MIT License · Open Source · GitHub" },
 ]
 
 export function ShowcaseSection() {
   const [active, setActive] = useState(0)
-  const { ref, isVisible } = useReveal(0.15)
+  const { ref, isVisible } = useReveal(0.1)
 
   return (
-    <section
-      ref={ref}
-      className={`sec rv${isVisible ? " vis" : ""}`}
-      style={{ paddingTop: 0 }}
-    >
+    <section ref={ref as React.RefObject<HTMLElement>} className={`sec rv${isVisible ? " vis" : ""}`} style={{ paddingTop: 0 }}>
       <div className="wrap">
-        <div className="sec-hd">
+        <div className={`sec-hd rv${isVisible ? " vis" : ""}`}>
           <div className="sec-hd-l">
-            <p className="sec-n">03 / Возможности</p>
-            <h2 className="sec-t">Что разблокируем</h2>
+            <div className="sec-n">// 003</div>
+            <h2 className="sec-t">Интерфейс</h2>
           </div>
           <div className="sec-rule" />
-          <span className="sec-tag">Живая демонстрация</span>
+          <div className="sec-tag">Application Preview</div>
         </div>
 
         <div className="show-wrap">
+          {/* Stage */}
           <div className="show-stage">
             <div className="show-bar">
-              <div className="show-dot r" />
-              <div className="show-dot y" />
-              <div className="show-dot g" />
-              <span className="show-bar-t">{tabs[active].title} — Активен</span>
-              <span className="show-bar-i">Zapret Core</span>
+              <span className="show-dot r" /><span className="show-dot y" /><span className="show-dot g" />
+              <span className="show-bar-t">{tabs[active].bar}</span>
+              <span className="show-bar-i">v2.5.5</span>
             </div>
-            <div className="show-frame" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <div style={{ textAlign: "center", padding: "2rem" }}>
-                <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>
-                  {active === 0 ? "▶" : active === 1 ? "🎙" : "✈️"}
+            <div
+              className="show-frame"
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "1rem", padding: "2rem" }}
+            >
+              {/* Fake terminal preview */}
+              <div style={{
+                width: "100%",
+                maxWidth: "420px",
+                border: "1px solid var(--line2)",
+                borderRadius: "var(--r-lg)",
+                background: "rgb(5 5 8 / 0.7)",
+                padding: "clamp(18px,2.8vw,32px)",
+                fontFamily: "'JetBrains Mono', monospace",
+              }}>
+                <div style={{ fontSize: "0.58rem", color: "var(--dim)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "16px" }}>
+                  zapret-core · {tabs[active].bar.split("— ")[1]}
                 </div>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", letterSpacing: "3px", textTransform: "uppercase", color: "var(--c-green)", marginBottom: "0.5rem" }}>
-                  ● Соединение установлено
-                </p>
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6rem", color: "var(--dim)", letterSpacing: "2px" }}>
-                  {tabs[active].meta.tag}
-                </p>
+                <div style={{ fontSize: "3rem", marginBottom: "12px", lineHeight: 1 }}>
+                  {previewContent[active].emoji}
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "var(--c-green)", letterSpacing: "2.5px", textTransform: "uppercase", marginBottom: "8px" }}>
+                  ● {previewContent[active].status}
+                </div>
+                <div style={{ fontSize: "0.62rem", color: "var(--dim2)", letterSpacing: "1.5px" }}>
+                  {previewContent[active].sub}
+                </div>
+                <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} style={{ height: "1px", background: "var(--line)", borderRadius: "1px" }} />
+                  ))}
+                </div>
+                <div style={{ marginTop: "16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                  {["RX", "TX", "PING", "MODE"].map((label) => (
+                    <div key={label} style={{ padding: "8px 10px", border: "1px solid var(--line)", borderRadius: "8px", background: "rgb(255 255 255 / 0.02)" }}>
+                      <div style={{ fontSize: "0.5rem", color: "var(--dim)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "4px" }}>{label}</div>
+                      <div style={{ fontSize: "0.8rem", color: "var(--paper)", fontWeight: 500 }}>
+                        {label === "RX" ? "1.2 GB" : label === "TX" ? "0.4 GB" : label === "PING" ? "12 ms" : "KERNEL"}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
+          {/* Tabs */}
           <div className="show-side">
             {tabs.map((tab, i) => (
               <button
@@ -90,24 +135,21 @@ export function ShowcaseSection() {
                 className={`show-tab${active === i ? " on" : ""}`}
                 onClick={() => setActive(i)}
               >
-                <div className="show-tab-i">{icons[i]}</div>
-                <div className="show-tab-tx">
-                  <div className="show-tab-h">
+                <span className="show-tab-i">{tab.icon}</span>
+                <span className="show-tab-tx">
+                  <span className="show-tab-h">
                     <span className="show-tab-n">{tab.n}</span>
-                  </div>
-                  <span className="show-tab-t">{tab.title}</span>
-                  <p className="show-tab-d">{tab.desc}</p>
-                </div>
+                    <span className="show-tab-t">{tab.title}</span>
+                  </span>
+                  <span className="show-tab-d">{tab.desc}</span>
+                </span>
               </button>
             ))}
 
             <div className="show-meta">
-              <span>
-                <span className="dot" />
-                {tabs[active].meta.label}
-              </span>
-              <span><b>{tabs[active].meta.value}</b></span>
-              <span>{tabs[active].meta.tag}</span>
+              <span><span className="dot" />Статус</span>
+              <span><b>ACTIVE</b></span>
+              <span>v2.5.5 Stable</span>
             </div>
           </div>
         </div>

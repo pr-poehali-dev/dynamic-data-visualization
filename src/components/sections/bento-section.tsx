@@ -1,90 +1,90 @@
 import { useReveal } from "@/hooks/use-reveal"
+import type React from "react"
+
+const ArrowRight = () => (
+  <svg className="cf-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+  </svg>
+)
 
 export function BentoSection() {
   const { ref, isVisible } = useReveal(0.15)
 
-  const cards = [
-    {
-      cls: "card s-a",
-      icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
-      ),
-      title: "Обход на уровне ядра",
-      desc: "ZAPRET CORE работает непосредственно со стеком TCP/IP Windows. Пакеты фрагментируются так, что системы глубокой инспекции ТСПУ не успевают их классифицировать — соединение устанавливается напрямую с сервером.",
-      footer: "DPI · ТСПУ · TCP fragmentation",
-    },
-    {
-      cls: "card card-gold s-b",
-      icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-      ),
-      title: "Прямое соединение",
-      desc: "Никаких промежуточных серверов. Ваш трафик идёт напрямую к YouTube, Discord и Telegram — без замедлений VPN.",
-      footer: "P2P · Без посредников · Нативная скорость",
-    },
-    {
-      cls: "card s-c",
-      icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-        </svg>
-      ),
-      title: "0 логов",
-      desc: "ZAPRET CORE не собирает и не отправляет никаких данных. Работает локально — полная конфиденциальность.",
-      footer: "No-log · Offline · Privacy",
-    },
-    {
-      cls: "card s-d",
-      icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-        </svg>
-      ),
-      title: "Без потерь скорости",
-      desc: "В отличие от VPN, фрагментация пакетов практически не нагружает процессор и не снижает пропускную способность. 4K YouTube и голосовые звонки Discord работают без задержек.",
-      footer: "Zero latency · High throughput · 4K ready",
-    },
-  ]
-
   return (
-    <section
-      ref={ref}
-      className={`sec rv${isVisible ? " vis" : ""}`}
-    >
+    <section ref={ref as React.RefObject<HTMLElement>} className={`sec rv${isVisible ? " vis" : ""}`} id="arch">
       <div className="wrap">
-        <div className="sec-hd">
+        <div className={`sec-hd rv${isVisible ? " vis" : ""}`}>
           <div className="sec-hd-l">
-            <p className="sec-n">01 / Архитектура</p>
-            <h2 className="sec-t">Как это работает</h2>
+            <div className="sec-n">// 001</div>
+            <h2 className="sec-t">Архитектура</h2>
           </div>
           <div className="sec-rule" />
-          <span className="sec-tag">Без VPN · Без серверов</span>
+          <div className="sec-tag">Platform Modules</div>
         </div>
 
         <div className="bento">
-          {cards.map((card, i) => (
-            <div key={i} className={card.cls}>
-              <div className="cb">
-                <div className="ci">{card.icon}</div>
-                <h3 className="ct">{card.title}</h3>
-                <p className="cd">{card.desc}</p>
-                <div className="cf">
-                  <svg className="cf-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                  {card.footer}
-                </div>
+          <div className="card s-a">
+            <div className="cb">
+              <div className="ci">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
               </div>
+              <h3 className="ct">Zapret Dyson</h3>
+              <p className="cd">
+                Флагманский C++ клиент с интерфейсом на DirectX 11. Инъекция пакетов на уровне ядра ОС через WinDivert.
+                Фрагментация трафика обманывает оборудование провайдера — YouTube, Discord и другие сервисы восстанавливаются без VPN.
+              </p>
+              <div className="cf"><ArrowRight /><span>Основной инструмент</span></div>
             </div>
-          ))}
+          </div>
+
+          <div className="card s-b">
+            <div className="cb">
+              <div className="ci">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </div>
+              <h3 className="ct">Avocado Proxy</h3>
+              <p className="cd">MTProto WebSocket туннель для Android. Гибридное ядро маскирует трафик под HTTPS. Stealth режим.</p>
+              <div className="cf"><ArrowRight /><span>Для Android</span></div>
+            </div>
+          </div>
+
+          <div className="card s-c">
+            <div className="cb">
+              <div className="ci">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+              <h3 className="ct">Deadlock Boost</h3>
+              <p className="cd">Source 2 Config. Отсечение рендеринга скрытой геометрии. Максимальный FPS без лагов.</p>
+              <div className="cf"><ArrowRight /><span>Игровой модуль</span></div>
+            </div>
+          </div>
+
+          <a
+            href="https://pressf.com/dys0n/donate"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card card-gold s-d"
+          >
+            <div className="cb">
+              <div className="ci">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </div>
+              <h3 className="ct">Forbes Ledger</h3>
+              <p className="cd">
+                Поддержка серверной инфраструктуры и развития ядра платформы. Закрытый список меценатов.
+                Каждое пожертвование конвертируется в мощности.
+              </p>
+              <div className="cf"><ArrowRight /><span>Попасть в список</span></div>
+            </div>
+          </a>
         </div>
       </div>
     </section>

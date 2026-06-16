@@ -2,18 +2,22 @@ import { Shader, ChromaFlow, Swirl } from "shaders/react"
 import { CustomCursor } from "@/components/custom-cursor"
 import { GrainOverlay } from "@/components/grain-overlay"
 import { MagneticButton } from "@/components/magnetic-button"
+import { Preloader } from "@/components/preloader"
 import { MarqueeSection } from "@/components/sections/marquee-section"
 import { ReleaseSection } from "@/components/sections/release-section"
 import { BentoSection } from "@/components/sections/bento-section"
 import { VsSection } from "@/components/sections/vs-section"
 import { ShowcaseSection } from "@/components/sections/showcase-section"
 import { FooterSection } from "@/components/sections/footer-section"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, useCallback } from "react"
 
 export default function Index() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [preloaderDone, setPreloaderDone] = useState(false)
   const shaderContainerRef = useRef<HTMLDivElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const handlePreloaderDone = useCallback(() => setPreloaderDone(true), [])
 
   useEffect(() => {
     const checkShaderReady = () => {
@@ -48,6 +52,7 @@ export default function Index() {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-background">
+      {!preloaderDone && <Preloader onDone={handlePreloaderDone} />}
       <CustomCursor />
       <GrainOverlay />
 
@@ -133,112 +138,69 @@ export default function Index() {
         {/* ── Hero ────────────────────────────────────────────────────── */}
         <section
           id="hero"
-          className={`relative flex min-h-screen flex-col justify-end px-6 pb-20 pt-28 md:px-12 md:pb-28 transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+          className={`hero transition-opacity duration-700 ${preloaderDone ? "opacity-100" : "opacity-0"}`}
         >
-          <div className="wrap">
-            <div className="max-w-3xl">
-              <div className="mb-5 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 backdrop-blur-md duration-700">
-                <p className="font-mono text-xs text-white/80 uppercase tracking-[3px]">Обход блокировок на уровне ядра</p>
-              </div>
+          {/* Background grid */}
+          <div className="hero-grid" aria-hidden="true" />
+          {/* Corner accents */}
+          <div className="hero-c tl" aria-hidden="true" />
+          <div className="hero-c tr" aria-hidden="true" />
+          <div className="hero-c bl" aria-hidden="true" />
+          <div className="hero-c br" aria-hidden="true" />
 
-              <h1
-                className="mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 uppercase text-white"
-                style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
-                  fontSize: "clamp(3rem, 9vw, 8rem)",
-                  letterSpacing: "0.025em",
-                  lineHeight: 1,
-                }}
+          <div className="hero-in">
+            {/* Badge */}
+            <div className="hero-badge rv vis">
+              <span className="bp" />
+              <span>Closed core — open network</span>
+            </div>
+
+            {/* Heading with echo */}
+            <h1 className="hero-h rv vis d1">
+              <span className="hero-h-echo" aria-hidden="true">СВОБОДА.</span>
+              <span className="hero-h-main">СВОБОДА.</span>
+            </h1>
+
+            <p className="hero-sub rv vis d2">
+              Оркестрация трафика на низком уровне ядра. Полная анонимность.{" "}
+              <strong>Никаких VPN.</strong> Только твой личный канал и математически идеальная фрагментация DPI&#8209;пакетов.
+            </p>
+
+            <div className="hero-btns rv vis d3">
+              <a href="https://zapretcore.ru/downloads" className="btn btn-f">
+                Каталог Сборок
+              </a>
+              <a
+                href="https://pressf.com/dys0n/donate"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-o"
               >
-                Оркестрация<br />
-                <span style={{ color: "var(--c-green)" }}>сетевой</span><br />
-                свободы
-              </h1>
+                Поддержать
+              </a>
+            </div>
+          </div>
 
-              <p className="mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-white/70 duration-1000 delay-200 md:text-lg">
-                ZAPRET CORE — инструменты для обхода блокировок ТСПУ.<br />
-                YouTube, Discord, Telegram снова работают. Без VPN. Без логов.
-              </p>
-
-              <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-4 duration-1000 delay-300 sm:flex-row sm:items-center">
-                <a
-                  href="https://github.com/zapretcore"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "9px",
-                    padding: "14px 28px",
-                    borderRadius: "11px",
-                    background: "var(--paper)",
-                    color: "var(--ink)",
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "0.72rem",
-                    fontWeight: 700,
-                    letterSpacing: "1.8px",
-                    textTransform: "uppercase",
-                    textDecoration: "none",
-                    transition: "transform 0.4s var(--ease), box-shadow 0.4s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-2px)"
-                    e.currentTarget.style.boxShadow = "0 16px 36px rgb(255 255 255 / 0.18)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = ""
-                    e.currentTarget.style.boxShadow = ""
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Скачать бесплатно
-                </a>
-                <MagneticButton variant="secondary" onClick={() => scrollTo("bento")}>
-                  Как это работает
-                </MagneticButton>
-              </div>
-
-              {/* Stats row */}
-              <div className="mt-12 flex gap-8 animate-in fade-in duration-1000 delay-500 flex-wrap">
-                {[
-                  { v: "0", l: "Логов" },
-                  { v: "50K+", l: "Пользователей" },
-                  { v: "3", l: "Сервиса" },
-                  { v: "v3.1", l: "Версия" },
-                ].map((s) => (
-                  <div key={s.l}>
-                    <div
-                      style={{
-                        fontFamily: "'Bebas Neue', sans-serif",
-                        fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
-                        letterSpacing: "0.04em",
-                        color: "var(--c-green)",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {s.v}
-                    </div>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6rem", color: "var(--dim)", letterSpacing: "2.5px", textTransform: "uppercase", marginTop: "4px" }}>
-                      {s.l}
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* HUD */}
+          <div className="hud rv vis d4">
+            <div className="hud-c">
+              <span className="hud-l">Online Nodes</span>
+              <span className="hud-v">128</span>
+            </div>
+            <div className="hud-c">
+              <span className="hud-l">Status</span>
+              <span className="hud-v hud-ok">SECURE</span>
+            </div>
+            <div className="hud-c">
+              <span className="hud-l">Version</span>
+              <span className="hud-v">v2.5.5</span>
             </div>
           </div>
 
           {/* Scroll hint */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500">
-            <div className="flex items-center gap-2">
-              <p className="font-mono text-xs text-white/50 uppercase tracking-[2px]">Листайте вниз</p>
-              <div className="flex h-6 w-12 items-center justify-center rounded-full border border-white/15 bg-white/8 backdrop-blur-md">
-                <div className="h-2 w-2 animate-pulse rounded-full bg-white/60" />
-              </div>
-            </div>
+          <div className="scroll-hint" aria-hidden="true">
+            <span>Scroll</span>
+            <div className="scroll-l" />
           </div>
         </section>
 

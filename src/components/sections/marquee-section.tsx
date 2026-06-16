@@ -1,35 +1,41 @@
 export function MarqueeSection() {
-  const items = [
-    "YouTube разблокирован",
-    "Discord активен",
-    "Telegram доступен",
-    "Без VPN",
-    "Без логов",
-    "ТСПУ обходится",
-    "DPI-фрагментация",
-    "Открытый код",
-    "Прямое соединение",
-    "Нет слежки",
+  const row1 = [
+    "KERNEL LEVEL INJECTION",
+    "DPI BYPASS PROTOCOL",
+    "WINDIVERT ORCHESTRATION",
+    "MTPROTO WEBSOCKET",
+    "ZERO TELEMETRY",
+    "PACKET FRAGMENTATION",
+  ]
+  const row2 = [
+    "NO LOGS NO TRACE",
+    "YOUTUBE 4K RESTORED",
+    "DISCORD ZERO LATENCY",
+    "ENCRYPTED CHANNEL",
+    "OPEN SOURCE CORE",
   ]
 
-  const Row = ({ reversed = false }: { reversed?: boolean }) => (
-    <div className="mq-row">
-      <div className={`mq-in${reversed ? " r" : ""}`}>
-        {[...items, ...items].map((item, i) => (
-          <span key={i} className="mq-it">
-            {item}
-            <span className="mq-sep">+</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-
   return (
-    <div className="mq-zone">
-      <Row />
+    <div className="mq-zone rv vis">
+      <div className="mq-row">
+        <div className="mq-in">
+          {[...row1, ...row1].map((item, i) => (
+            <span key={i} className="mq-it">
+              {item}<span className="mq-sep">◆</span>
+            </span>
+          ))}
+        </div>
+      </div>
       <div className="mq-div" />
-      <Row reversed />
+      <div className="mq-row">
+        <div className="mq-in r">
+          {[...row2, ...row2].map((item, i) => (
+            <span key={i} className="mq-it">
+              {item}<span className="mq-sep">◆</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

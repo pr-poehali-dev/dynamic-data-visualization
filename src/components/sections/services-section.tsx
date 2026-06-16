@@ -15,31 +15,31 @@ export function ServicesSection() {
           }`}
         >
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Услуги
+            Сервисы
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Наши компетенции</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Как это работает</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
           {[
             {
-              title: "Веб-разработка",
-              description: "Создание современных веб-приложений любой сложности",
+              title: "Работа на уровне ядра",
+              description: "Обход ТСПУ через DPI-фрагментацию пакетов — без VPN и сторонних серверов",
               direction: "top",
             },
             {
-              title: "UI/UX Дизайн",
-              description: "Проектирование удобных и красивых интерфейсов",
+              title: "Полная анонимность",
+              description: "Никаких логов, регистрации и слежки. Ваш трафик остаётся только вашим",
               direction: "right",
             },
             {
-              title: "Мобильные приложения",
-              description: "Кроссплатформенная разработка для iOS и Android",
+              title: "Высокая скорость",
+              description: "Прямое соединение без посредников — скорость не падает в отличие от VPN",
               direction: "left",
             },
             {
-              title: "Консалтинг",
-              description: "Техническая экспертиза и стратегическое планирование",
+              title: "Простая установка",
+              description: "Скачайте, запустите — и всё работает. Готовые конфигурации для всех сервисов",
               direction: "bottom",
             },
           ].map((service, i) => (
